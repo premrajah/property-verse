@@ -19,10 +19,10 @@ const PropertySchema = new Schema(
             type: String,
         },
         location: {
-            Address1: {
+            address1: {
                 type: String
             },
-            Address2: {
+            address2: {
                 type: String
             },
             city: {
