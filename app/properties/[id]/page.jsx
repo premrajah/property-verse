@@ -10,6 +10,7 @@ import BookmarkButton from "@/components/BookmarkButton";
 import ShareButtons from "@/components/ShareButtons";
 import PropertyContactForm from "@/components/PropertyContactForm";
 import PropertyImages from "@/components/PropertyImages";
+import Spinner from "@/components/Spinner";
 
 const PropertyPage = () => {
   const { id } = useParams();
@@ -40,6 +41,7 @@ const PropertyPage = () => {
 
   return (
     <>
+      {loading && <Spinner loading={loading} />}
       {!loading && property && (
         <>
           <PropertyHeaderImage image={property.data.images[0]} />
