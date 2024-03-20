@@ -1,36 +1,59 @@
-import NextAuth from 'next-auth';
+import connectDB from "../config/database";
+import User from '../models/User';
 import GoogleProvider from 'next-auth/providers/google';
 
 export const authOptions = {
-    providers: [{
-        clientId: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        authorization: {
-            params: {
-                prompt: "consent",
-                access_type: "offline",
-                response_type: "code"
+    providers: [
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            authorization: {
+                params: {
+                    prompt: "consent",
+                    access_type: "offline",
+                    response_type: "code"
+                }
             }
-        }
-    }],
+        }),
+    ],
     callbacks: {
         // Invoked on successful signin
         async signIn({ profile }) {
-            // TODO Connect the DB
+            // connect DB
+            await connectDB();
 
-            // TODO Check is user exists 
+            // Check is user exists 
+            const userExists = await User.findOne({
+                email: profile.email
+            })
 
-            // TODO If user does not exist, add to db
+            //If user does not exist, add to db
+            if (!userExists) {
+                // Truncate username if too long 
+                const username = profile.name.slice(0, 20);
 
-            // TODO Return true to allow signin
+                await User.create({
+                    email: profile.email,
+                    username,
+                    image: profile.picture
+                })
+            }
+
+            // Return true to allow signin
+            return true;
         },
         // TODO Modifies the session object 
         async session({ session }) {
-            // TODO GEt user from db
+            //  Get user from db
+            const user = await User.findOne({
+                email: session.user.email
+            })
 
-            // TODO Assign user id to session 
+            //Assign user id to session 
+            session.user.id = user._id.toString();
 
-            // TODO return session
+            //return session
+            return session
         }
     }
 }
