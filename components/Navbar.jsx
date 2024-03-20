@@ -184,7 +184,10 @@ const Navbar = () => {
                       Saved Properties
                     </Link>
                     <button
-                      onClick={() => signOut()}
+                      onClick={() => {
+                        setProfileMenuOpen(false);
+                        signOut();
+                      }}
                       className='block px-4 py-2 text-sm text-gray-700'
                       role='menuitem'
                       tabIndex='-1'
