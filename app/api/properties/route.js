@@ -18,7 +18,7 @@ export const GET = async (request) => {
         })
     } catch (error) {
         console.log("properties get error ", error);
-        return new Response("Something went wrong", {
+        return new Response({ message: "Something went wrong" }, {
             status: 500
         })
     }
@@ -31,7 +31,7 @@ export const POST = async (request) => {
         const sessionUser = await getSessionUser();
 
         if (!sessionUser || !sessionUser.userId) {
-            return new Response("User Id is Required", { status: 401 })
+            return new Response({ message: "User Id is Required" }, { status: 401 })
         }
 
         const { userId } = sessionUser;
@@ -100,25 +100,16 @@ export const POST = async (request) => {
             propertyData.images = uploadedImages
         }
 
-
-
-
         const newProperty = new Property(propertyData);
         await newProperty.save();
 
         return Response.redirect(`${process.env.NEXTAUTH_URL}/properties/${newProperty._id}`);
 
-
-        // return new Response(JSON.stringify({
-        //     data: "test"
-        // }), {
-        //     status: 200
-        // })
     } catch (error) {
 
         console.log("properties post error ", error);
 
-        return new Response("Something went wrong", {
+        return new Response({ message: "Something went wrong" }, {
             status: 500
         })
     }

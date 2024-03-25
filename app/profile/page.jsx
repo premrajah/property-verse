@@ -20,7 +20,7 @@ const profilePage = () => {
       if (!userId) return;
 
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/properties/user/${userId}`);
+        const res = await fetch(`api/properties/user/${userId}`);
 
         if (res.status === 200) {
           const data = await res.json();
@@ -39,8 +39,26 @@ const profilePage = () => {
     }
   }, [session]);
 
-  const handleDeleteProperty = async (id) => {
-    console.log(id);
+  const handleDeleteProperty = async (propertyId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this property");
+
+    if (!confirmed) return;
+
+    try {
+      const res = await fetch(`/api/properties/${propertyId}`, { method: "DELETE" });
+      if (res.status === 200) {
+        // Remove property from state
+        const updatedProperties = properties.data.filter((property) => property._id !== propertyId);
+        setProperties({ data: updatedProperties });
+
+        alert("property deleted");
+      } else {
+        alert("failed to delete ");
+      }
+    } catch (error) {
+      console.log("delete property error ", error);
+      alert("failed to delete ");
+    }
   };
 
   return (
@@ -69,7 +87,7 @@ const profilePage = () => {
 
             <div className='md:w-3/4 md:pl-4'>
               <h2 className='text-xl font-semibold mb-4'>Your Listings</h2>
-              {!loading && properties.data.length === 0 && <p>You have no property listings</p>}
+              {!loading && properties.length === 0 && <p>You have no property listings</p>}
               {loading ? (
                 <Spinner loading={loading} />
               ) : (
