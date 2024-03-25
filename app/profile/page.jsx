@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,6 +11,37 @@ const profilePage = () => {
   const profileImage = session?.user?.image;
   const profileName = session?.user?.name;
   const profileEmail = session?.user?.email;
+
+  const [loading, setLoading] = useState(true);
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    const fetchUserProperties = async (userId) => {
+      if (!userId) return;
+
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/properties/user/${userId}`);
+
+        if (res.status === 200) {
+          const data = await res.json();
+          setProperties(data);
+        }
+      } catch (error) {
+        console.log("get user properties error ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    // Fetch user properties when session is available
+    if (session?.user?.id) {
+      fetchUserProperties(session?.user?.id);
+    }
+  }, [session]);
+
+  const handleDeleteProperty = async (id) => {
+    console.log(id);
+  };
 
   return (
     <section className='bg-blue-50'>
@@ -35,13 +67,13 @@ const profilePage = () => {
               </h2>
             </div>
 
-            {/* <div className='md:w-3/4 md:pl-4'>
+            <div className='md:w-3/4 md:pl-4'>
               <h2 className='text-xl font-semibold mb-4'>Your Listings</h2>
-              {!loading && properties.length === 0 && <p>You have no property listings</p>}
+              {!loading && properties.data.length === 0 && <p>You have no property listings</p>}
               {loading ? (
                 <Spinner loading={loading} />
               ) : (
-                properties.map((property) => (
+                properties.data.map((property) => (
                   <div key={property._id} className='mb-10'>
                     <Link href={`/properties/${property._id}`}>
                       <Image
@@ -75,7 +107,7 @@ const profilePage = () => {
                   </div>
                 ))
               )}
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
