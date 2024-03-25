@@ -5,8 +5,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import profileDefault from "@/assets/images/profile.png";
+import { toast } from "react-toastify";
 
-const profilePage = () => {
+import React from "react";
+
+const ProfilePage = () => {
   const { data: session } = useSession();
   const profileImage = session?.user?.image;
   const profileName = session?.user?.name;
@@ -51,13 +54,13 @@ const profilePage = () => {
         const updatedProperties = properties.data.filter((property) => property._id !== propertyId);
         setProperties({ data: updatedProperties });
 
-        alert("property deleted");
+        toast.success("Property deleted");
       } else {
-        alert("failed to delete ");
+        toast.error("Failed to delete");
       }
     } catch (error) {
       console.log("delete property error ", error);
-      alert("failed to delete ");
+      toast.error("Failed to delete");
     }
   };
 
@@ -133,4 +136,4 @@ const profilePage = () => {
   );
 };
 
-export default profilePage;
+export default ProfilePage;

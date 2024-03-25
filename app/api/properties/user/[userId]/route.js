@@ -14,8 +14,6 @@ export const GET = async (request, { params }) => {
 
         const properties = await Property.find({ owner: userId });
 
-        console.log(">> ", properties);
-
         return new Response(JSON.stringify({
             data: properties
         }), {
