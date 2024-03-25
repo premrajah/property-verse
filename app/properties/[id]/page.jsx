@@ -65,7 +65,7 @@ const PropertyPage = () => {
               </div>
             </div>
           </section>
-          <PropertyImages images={property.images} />
+          <PropertyImages images={property.data.images} />
         </>
       )}
     </>
