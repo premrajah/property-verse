@@ -12,8 +12,6 @@ import {
 const ShareButtons = ({ property }) => {
   const shareURL = `${process.env.NEXT_PUBLIC_DOMAIN}/properties/${property.data._id}`;
 
-  console.log(property);
-
   return (
     <>
       <h3 className='text-xl font-bold text-center pt-2'>Share This Property</h3>
