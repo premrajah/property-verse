@@ -36,6 +36,7 @@ const PropertyContactForm = ({ property }) => {
 
       if (res.status === 200) {
         toast.success("Message sent successfully.");
+        setWasSubmitted(true);
       } else if (res.status === 400 || res.status === 401) {
         const dataObject = await res.json();
 
@@ -43,8 +44,6 @@ const PropertyContactForm = ({ property }) => {
       } else {
         toast.error("Error sending form.");
       }
-
-      setWasSubmitted(true);
     } catch (error) {
       console.log("new message request error ", error);
       toast.error("Error sending form.");
