@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useGlobalContext } from "@/context/GlobalContext";
 
 const UnreadMessageCount = ({ session }) => {
-  const [unreadCount, setUnreadCount] = useState(0);
+  const { unreadCount, setUnreadCount } = useGlobalContext();
 
   useEffect(() => {
     if (!session) return;
@@ -22,7 +23,7 @@ const UnreadMessageCount = ({ session }) => {
     } catch (error) {
       console.log("fetch count error ", error);
     }
-  }, [session]);
+  }, [session, setUnreadCount]);
 
   return (
     unreadCount > 0 && (
