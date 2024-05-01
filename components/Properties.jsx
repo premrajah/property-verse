@@ -6,16 +6,20 @@ import Spinner from "./Spinner";
 const Properties = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(3);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const res = await fetch("/api/properties");
+        const res = await fetch(`/api/properties?page=${page}&pageSize=${pageSize}`);
 
         if (res.status === 200) {
           const propertiesData = await res.json();
           const { data } = propertiesData;
-          setProperties(data);
+          setProperties(data.properties);
+          setTotalItems(data.total);
         }
       } catch (error) {
         console.log("fetch properties error ", error);

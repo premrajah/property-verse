@@ -3,9 +3,9 @@ import Link from "next/link";
 import PropertyCard from "@/components/PropertyCard";
 
 const HomeProperties = async () => {
-  const properties = await fetchProperties();
+  const data = await fetchProperties();
 
-  const recentProperties = properties.data.sort(() => Math.random() - Math.random()).slice(0, 3);
+  const recentProperties = data.data.properties.sort(() => Math.random() - Math.random()).slice(0, 3);
 
   return (
     <>
