@@ -7,8 +7,6 @@ import { useSession } from "next-auth/react";
 import profileDefault from "@/assets/images/profile.png";
 import { toast } from "react-toastify";
 
-import React from "react";
-
 const ProfilePage = () => {
   const { data: session } = useSession();
   const profileImage = session?.user?.image;
