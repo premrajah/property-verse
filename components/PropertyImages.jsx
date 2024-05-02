@@ -7,7 +7,7 @@ const PropertyImages = ({ images }) => {
       <section className='bg-blue-50 p-4'>
         <div className='container mx-auto'>
           {images.length === 1 ? (
-            <Item original={image[0]} thumbnail={images[0]} width='1000' height='600'>
+            <Item original={images[0]} thumbnail={images[0]} width='1000' height='600'>
               {({ ref, open }) => (
                 <Image
                   src={images[0]}
