@@ -56,7 +56,7 @@ const PropertyMap = ({ property }) => {
       }
     };
     fetchCoords();
-  }, []);
+  }, [property.data.location.city, property.data.location.county, property.data.location.postcode, viewport]);
 
   if (loading) {
     return <Spinner loading={loading} />;
