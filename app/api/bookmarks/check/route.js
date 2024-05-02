@@ -9,7 +9,6 @@ export const POST = async (request) => {
         await connectDB();
 
         const { propertyId } = await request.json();
-        console.log("++ ", propertyId);
 
         const sessionUser = await getSessionUser();
 
